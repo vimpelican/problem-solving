@@ -1,3 +1,4 @@
+// close issue
 // https://stackoverflow.com/questions/33186650/input-string-and-int-in-the-same-line
 import java.util.Scanner;
 

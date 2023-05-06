@@ -1,5 +1,6 @@
 // https://stackoverflow.com/questions/33186650/input-string-and-int-in-the-same-line
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class p10845 {
     public static void main(String[] args) {
@@ -33,21 +34,23 @@ public class p10845 {
             // switch-case를 이용해 분기를 나눈다
             switch(inputCommand[0]) {
                 case "pop":
-                    System.out.println(myQueue.pop());
+                    myQueue.pop();
                     break;
                 case "size":
-                    System.out.println(myQueue.size());
+                    myQueue.size();
                     break;
                 case "empty":
-                    System.out.println(myQueue.empty());
+                    myQueue.empty();
                     break;
                 case "front":
-                    System.out.println(myQueue.front());
+                    myQueue.front();
                     break;
                 case "back":
-                    System.out.println(myQueue.back());
+                    myQueue.back();
+                    break;
             }
         }
+        myQueue.printOutput();
     }
 }
 
@@ -55,8 +58,8 @@ class Queue {
     private int[] elements;
     private int capacity;
     private int sizeOfQueue;
+    private ArrayList<Integer> output = new ArrayList<Integer>();
 
-    // queue의 처음과 마지막
     private int front, rear;
 
     public Queue(int i) {
@@ -66,49 +69,57 @@ class Queue {
         elements = new int[this.capacity];
     }
 
-    // 정수 X를 큐에 넣는 연산
     public void push(int value) {
         elements[rear] = value;
         rear++;
     }
 
-    // 큐에서 가장 앞에 있는 정수를 빼고, 그 수를 출력한다. 만약 큐에 들어있는 정수가 없는 경우에는 -1을 출력
-    public int pop() {
-        if(this.empty() == 1)
-            return -1;
-        int temp = elements[front];        
-        front++;
-        return temp;
+    public void pop() {
+        if(this.isEmpty())
+            output.add(-1);
+        else {
+            output.add(elements[front]); 
+            front++;
+        }  
     }
 
-    // 큐에 들어있는 정수의 개수를 출력
-    public int size() {
+    public void size() {
         this.sizeOfQueue = rear - front;
-        return this.sizeOfQueue;
+        output.add(sizeOfQueue);
     }
 
-    // 큐가 비어있으면 1, 아니면 0을 출력
-    public int empty() {
+    public boolean isEmpty() {
         if(this.rear == this.front)
-            return 1;
+            return true;
         else
-            return 0;
+            return false;
     }
 
-    // 큐의 가장 앞에 있는 정수를 출력한다. 만약 큐에 들어있는 정수가 없는 경우에는 -1을 출력
-    public int front() {
-        if(this.empty() == 1)
-            return -1;
+    public void empty() {
+        if(this.isEmpty())
+            output.add(1);
         else
-            return elements[this.front];
+            output.add(0);
+    }
+
+    public void front() {
+        if(this.isEmpty())
+            output.add(-1);
+        else
+            output.add(elements[this.front]);
 
     }
 
-    // 큐의 가장 뒤에 있는 정수를 출력한다. 만약 큐에 들어있는 정수가 없는 경우에는 -1을 출력
-    public int back() {
-        if(this.empty() == 1)
-            return -1;
+    public void back() {
+        if(this.isEmpty())
+            output.add(-1);
         else
-            return this.rear;
+            output.add(rear);
+    }
+
+    public void printOutput() {
+        for(int i = 0; i < output.size(); i++) {
+            System.out.println(output.get(i));
+        }
     }
 }

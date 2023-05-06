@@ -5,7 +5,7 @@ public class p10845 {
     public static void main(String[] args) {
         // 명령의 수 N (1 ≤ N ≤ 10,000)를 입력받는다
         Scanner sc = new Scanner(System.in);
-        long numberOfCommands = sc.nextInt();
+        int numberOfCommands = sc.nextInt();
         // 엔터 키(\n)를 건너 뛴다
         sc.nextLine();
 
@@ -15,7 +15,7 @@ public class p10845 {
         // inputString == inputCommand + inputNumber
         String[] inputCommand;
         int inputNumber;
-        Queue myQueue = new Queue();
+        Queue myQueue = new Queue(numberOfCommands);
 
         for(int i = 0; i < numberOfCommands; i++) {
             // 매 루프마다 string을 입력받는다
@@ -59,11 +59,11 @@ class Queue {
     // queue의 처음과 마지막
     private int front, rear;
 
-    public Queue() {
+    public Queue(int i) {
         this.front = 0;
         this.rear = 0;
-        this.capacity = 10;
-        elements = new int[capacity];
+        this.capacity = i;
+        elements = new int[this.capacity];
     }
 
     // 정수 X를 큐에 넣는 연산

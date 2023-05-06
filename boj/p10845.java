@@ -1,6 +1,5 @@
 // https://stackoverflow.com/questions/33186650/input-string-and-int-in-the-same-line
 import java.util.Scanner;
-import java.util.ArrayList;
 
 public class p10845 {
     public static void main(String[] args) {
@@ -37,7 +36,7 @@ public class p10845 {
                     myQueue.pop();
                     break;
                 case "size":
-                    myQueue.size();
+                    myQueue.printSize();
                     break;
                 case "empty":
                     myQueue.empty();
@@ -50,7 +49,6 @@ public class p10845 {
                     break;
             }
         }
-        myQueue.printOutput();
     }
 }
 
@@ -58,7 +56,6 @@ class Queue {
     private int[] elements;
     private int capacity;
     private int sizeOfQueue;
-    private ArrayList<Integer> output = new ArrayList<Integer>();
 
     private int front, rear;
 
@@ -66,6 +63,7 @@ class Queue {
         this.front = 0;
         this.rear = 0;
         this.capacity = i;
+        this.sizeOfQueue = 0;
         elements = new int[this.capacity];
     }
 
@@ -76,16 +74,20 @@ class Queue {
 
     public void pop() {
         if(this.isEmpty())
-            output.add(-1);
+            System.out.println(-1);
         else {
-            output.add(elements[front]); 
+            System.out.println(elements[front]); 
             front++;
         }  
     }
 
-    public void size() {
+    public int checkSize() {
         this.sizeOfQueue = rear - front;
-        output.add(sizeOfQueue);
+        return sizeOfQueue;
+    }
+
+    public void printSize() {
+        System.out.println(checkSize());
     }
 
     public boolean isEmpty() {
@@ -97,29 +99,23 @@ class Queue {
 
     public void empty() {
         if(this.isEmpty())
-            output.add(1);
+            System.out.println(1);
         else
-            output.add(0);
+            System.out.println(0);
     }
 
     public void front() {
         if(this.isEmpty())
-            output.add(-1);
+            System.out.println(-1);
         else
-            output.add(elements[this.front]);
+            System.out.println(elements[this.front]);
 
     }
 
     public void back() {
         if(this.isEmpty())
-            output.add(-1);
+            System.out.println(-1);
         else
-            output.add(rear);
-    }
-
-    public void printOutput() {
-        for(int i = 0; i < output.size(); i++) {
-            System.out.println(output.get(i));
-        }
+            System.out.println(elements[this.rear - 1]);
     }
 }

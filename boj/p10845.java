@@ -1,14 +1,15 @@
-// close issue
 // https://stackoverflow.com/questions/33186650/input-string-and-int-in-the-same-line
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class p10845 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NumberFormatException, IOException {
         // 명령의 수 N (1 ≤ N ≤ 10,000)를 입력받는다
-        Scanner sc = new Scanner(System.in);
-        int numberOfCommands = sc.nextInt();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int numberOfCommands = Integer.parseInt(br.readLine());
         // 엔터 키(\n)를 건너 뛴다
-        sc.nextLine();
+        //br.readLine();
 
         // push 10과 같은 입력 String을 받는다
         String inputString;
@@ -20,7 +21,7 @@ public class p10845 {
 
         for(int i = 0; i < numberOfCommands; i++) {
             // 매 루프마다 string을 입력받는다
-            inputString = sc.nextLine();
+            inputString = br.readLine();
             // inputString을 command와 숫자로 분류한다
             inputCommand = inputString.split("(?<=\\D)(?=\\d)");
 

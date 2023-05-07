@@ -8,8 +8,6 @@ public class p10845 {
         // 명령의 수 N (1 ≤ N ≤ 10,000)를 입력받는다
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int numberOfCommands = Integer.parseInt(br.readLine());
-        // 엔터 키(\n)를 건너 뛴다
-        //br.readLine();
 
         // push 10과 같은 입력 String을 받는다
         String inputString;

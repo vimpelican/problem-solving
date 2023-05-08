@@ -1,4 +1,5 @@
 // https://comain.tistory.com/272
+// 입력 한번에 받고 출력 한번에 하는 게 맞았음
 
 import java.io.BufferedReader;
 import java.io.IOException;

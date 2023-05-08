@@ -1,7 +1,9 @@
 // https://stackoverflow.com/questions/33186650/input-string-and-int-in-the-same-line
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 public class p10845 {
     public static void main(String[] args) throws NumberFormatException, IOException {
@@ -58,6 +60,7 @@ class Queue {
     private int sizeOfQueue;
 
     private int front, rear;
+    private BufferedWriter bw;
 
     public Queue(int i) {
         this.front = 0;
@@ -65,6 +68,7 @@ class Queue {
         this.capacity = i;
         this.sizeOfQueue = 0;
         elements = new int[this.capacity];
+        bw = new BufferedWriter(new OutputStreamWriter(System.out));
     }
 
     public void push(int value) {
@@ -72,11 +76,16 @@ class Queue {
         rear++;
     }
 
-    public void pop() {
-        if(this.isEmpty())
-            System.out.println(-1);
+    public void pop() throws IOException {
+        if(this.isEmpty()) {
+            bw.write(Integer.toString(-1));
+            bw.newLine();
+            bw.flush();
+        }
         else {
-            System.out.println(elements[front]); 
+            bw.write(Integer.toString(elements[front]));
+            bw.newLine();
+            bw.flush();
             front++;
         }  
     }
@@ -86,8 +95,10 @@ class Queue {
         return sizeOfQueue;
     }
 
-    public void printSize() {
-        System.out.println(checkSize());
+    public void printSize() throws IOException {
+        bw.write(Integer.toString(checkSize()));
+        bw.newLine();
+        bw.flush();
     }
 
     public boolean isEmpty() {
@@ -97,25 +108,43 @@ class Queue {
             return false;
     }
 
-    public void empty() {
-        if(this.isEmpty())
-            System.out.println(1);
-        else
-            System.out.println(0);
+    public void empty() throws IOException {
+        if(this.isEmpty()) {
+            bw.write(Integer.toString(1));
+            bw.newLine();
+            bw.flush();
+        }
+        else {
+            bw.write(Integer.toString(0));
+            bw.newLine();
+            bw.flush();
+        }
     }
 
-    public void front() {
-        if(this.isEmpty())
-            System.out.println(-1);
-        else
-            System.out.println(elements[this.front]);
+    public void front() throws IOException {
+        if(this.isEmpty()) {
+            bw.write(Integer.toString(-1));
+            bw.newLine();
+            bw.flush();
+        }
+        else {
+            bw.write(Integer.toString(elements[this.front]));
+            bw.newLine();
+            bw.flush();
+        }
 
     }
 
-    public void back() {
-        if(this.isEmpty())
-            System.out.println(-1);
-        else
-            System.out.println(elements[this.rear - 1]);
+    public void back() throws IOException {
+        if(this.isEmpty()) {
+            bw.write(Integer.toString(-1));
+            bw.newLine();
+            bw.flush();
+        }
+        else {
+            bw.write(Integer.toString(elements[this.rear - 1]));
+            bw.newLine();
+            bw.flush();
+        }
     }
 }

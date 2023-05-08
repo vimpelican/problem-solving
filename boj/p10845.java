@@ -1,150 +1,97 @@
-// https://stackoverflow.com/questions/33186650/input-string-and-int-in-the-same-line
+// https://comain.tistory.com/272
+
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
 
 public class p10845 {
-    public static void main(String[] args) throws NumberFormatException, IOException {
-        // 명령의 수 N (1 ≤ N ≤ 10,000)를 입력받는다
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int numberOfCommands = Integer.parseInt(br.readLine());
-
-        // push 10과 같은 입력 String을 받는다
-        String inputString;
-
-        // inputString == inputCommand + inputNumber
-        String[] inputCommand;
-        int inputNumber;
-        Queue myQueue = new Queue(numberOfCommands);
-
-        for(int i = 0; i < numberOfCommands; i++) {
-            // 매 루프마다 string을 입력받는다
-            inputString = br.readLine();
-            // inputString을 command와 숫자로 분류한다
-            inputCommand = inputString.split("(?<=\\D)(?=\\d)");
-
-            // push는 int 값을 같이 가지고, 나머지 명령어는 없다
-            // int 값을 가지게 되면 길이가 2, 나머지는 길이가 1
-            if(inputCommand.length == 2) {
-                inputNumber = Integer.parseInt(inputCommand[1]);
-                myQueue.push(inputNumber);
-                continue;
-            }
-            // switch-case를 이용해 분기를 나눈다
-            switch(inputCommand[0]) {
-                case "pop":
-                    myQueue.pop();
-                    break;
-                case "size":
-                    myQueue.printSize();
-                    break;
-                case "empty":
-                    myQueue.empty();
-                    break;
-                case "front":
-                    myQueue.front();
-                    break;
-                case "back":
-                    myQueue.back();
-                    break;
-            }
-        }
-    }
-}
-
-class Queue {
-    private int[] elements;
-    private int capacity;
-    private int sizeOfQueue;
-
-    private int front, rear;
-    private BufferedWriter bw;
-
-    public Queue(int i) {
-        this.front = 0;
-        this.rear = 0;
-        this.capacity = i;
-        this.sizeOfQueue = 0;
-        elements = new int[this.capacity];
-        bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    }
-
-    public void push(int value) {
-        elements[rear] = value;
-        rear++;
-    }
-
-    public void pop() throws IOException {
-        if(this.isEmpty()) {
-            bw.write(Integer.toString(-1));
-            bw.newLine();
-            bw.flush();
-        }
-        else {
-            bw.write(Integer.toString(elements[front]));
-            bw.newLine();
-            bw.flush();
-            front++;
-        }  
-    }
-
-    public int checkSize() {
-        this.sizeOfQueue = rear - front;
-        return sizeOfQueue;
-    }
-
-    public void printSize() throws IOException {
-        bw.write(Integer.toString(checkSize()));
-        bw.newLine();
-        bw.flush();
-    }
-
-    public boolean isEmpty() {
-        if(this.rear == this.front)
-            return true;
-        else
-            return false;
-    }
-
-    public void empty() throws IOException {
-        if(this.isEmpty()) {
-            bw.write(Integer.toString(1));
-            bw.newLine();
-            bw.flush();
-        }
-        else {
-            bw.write(Integer.toString(0));
-            bw.newLine();
-            bw.flush();
-        }
-    }
-
-    public void front() throws IOException {
-        if(this.isEmpty()) {
-            bw.write(Integer.toString(-1));
-            bw.newLine();
-            bw.flush();
-        }
-        else {
-            bw.write(Integer.toString(elements[this.front]));
-            bw.newLine();
-            bw.flush();
-        }
-
-    }
-
-    public void back() throws IOException {
-        if(this.isEmpty()) {
-            bw.write(Integer.toString(-1));
-            bw.newLine();
-            bw.flush();
-        }
-        else {
-            bw.write(Integer.toString(elements[this.rear - 1]));
-            bw.newLine();
-            bw.flush();
-        }
-    }
+	static int[] que = new int[10001];
+	//스택은 LIFO이기 때문에 size가 인덱스가 될 수 있었지만,
+	//큐는 FIFO이기 때문에 저장된 값을 제외할때는 제일 앞의 값을 제외 시킨다.
+	//하지만 주의할 건 그렇다고 0인덱스를 제외 시키면 안된다. 배열은 값을 제외시키는 개념이 없기 때문에 
+	//0인덱스 값을 제외 시켰는데 다음 값을 또 제외 시키려면 0인덱스는 실제론 지워진 것이 아니라 그렇게 출력만 했기때문에	
+	//0인덱스 다음인 1인덱스 값을 출력해야한다. 그걸 체크하기위한 first변수이다.
+	static int first = 0;
+	//last는 back이 입력 되었을때 마지막 인덱스에 저장된 값을 출력하기위한 변수이지만 스택문제의 size처럼 해도 된다.
+	static int last = 0;
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int N = Integer.parseInt(br.readLine());
+		StringBuilder sb = new StringBuilder();
+		
+		for(int i = 0; i < N; i++) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			String S = st.nextToken();
+			
+			switch(S) {
+			case "push" :
+				push(Integer.parseInt(st.nextToken()));
+				break;
+			case "pop" :
+				sb.append(pop()).append("\n");
+				break;
+			case "size" :
+				sb.append(size()).append("\n");
+				break;
+			case "empty" :
+				sb.append(empty()).append("\n");
+				break;
+			case "front" :
+				sb.append(front()).append("\n");
+				break;
+			case "back" :
+				sb.append(back()).append("\n");
+				break;
+			}
+		}
+		System.out.println(sb);
+	}
+	
+	public static void push(int X) {
+		que[last] = X;
+		last++;
+	}
+	
+	public static int pop() {
+		if(last - first == 0) {
+			return -1;
+		}else {
+			int P = que[first];
+			first++;
+			return P;
+		}
+	}
+	
+	public static int size() {
+		return last - first;
+	}
+	
+	public static int empty() {
+		if(last - first == 0) {
+			return 1;
+		}else {
+			return 0;
+		}
+	}
+	
+	public static int front() {
+		if(last - first == 0) {
+			return -1;
+		}else {
+			int F = que[first];
+			return F;
+		}
+	}
+	
+	public static int back() {
+		if(last - first == 0) {
+			return -1;
+		}else {
+			int B = que[last - 1];
+			return B;
+		}
+	}
+	
 }
